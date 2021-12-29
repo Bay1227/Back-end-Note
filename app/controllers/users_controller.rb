@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :user_data_invalid
   rescue_from ActiveRecord::RecordNotFound, with: :user_not_found
+#   before_action :configure_permitted_parameters
 
   def index
       render json: User.all, status: :ok
@@ -28,6 +29,10 @@ class UsersController < ApplicationController
       session.destroy
       render status: :no_content
   end
+
+#   def configure_permitted_parameters
+#     devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :password_confirmation])
+#   end
 
   private
 

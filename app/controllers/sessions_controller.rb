@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
 #   rescue_from ActiveRecord::RecordNotFound, with: :user_not_found
+# skip_before_action :user_not_found
 
   def create
       user = User.find_by(username: params[:username])
@@ -12,8 +13,13 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-      session.destroy
+    if session[:user_id]
+      session.delete :user_id
+      render status: :ok
+    else 
+          # session.destroy
       render status: :no_content
+    end 
   end
 
   private
